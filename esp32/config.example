@@ -11,6 +11,9 @@ const unsigned long pingInterval = 300000;  // Ping periyodu
 const char* feed_channel = "pet_feeder/feed"; // Besleme kanalı
 const char* ping_channel = "pet_feeder/ping"; // Ping kanalı
 const char* feedback_channel = "pet_feeder/feedback"; // Geri bildirim kanalı
+const char* request_schedule_channel = "pet_feeder/request_schedule";
+const char* response_schedule_channel = "pet_feeder/response_schedule";
+const char* update_schedule_channel = "pet_feeder/update_schedule";
 
 //AutoFeedHandler
 const int feeding_period = 5; // Besleme sıklığı
