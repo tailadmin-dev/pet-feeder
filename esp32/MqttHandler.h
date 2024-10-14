@@ -1,5 +1,6 @@
 #ifndef MQTT_HANDLER_H
 #define MQTT_HANDLER_H
+#define MQTT_MAX_PACKET_SIZE 4096
 
 #include <WiFi.h>
 #include <PubSubClient.h> // MQTT kütüphanesi
@@ -24,5 +25,8 @@ void checkMQTTConnection();
 void sendPingMessage();
 void checkPingTime();
 void sendFeededMessage(int amount);
+void updateScheduleFromMQTT(String jsonMessage);
+String sortFeedingSchedule(String jsonMessage);
+String getScheduleAsJSON();
 
 #endif

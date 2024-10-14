@@ -5,9 +5,11 @@
 #include "IRHandler.h"
 #include "LedHandler.h"
 #include "AutoFeedHandler.h"
+#include <EEPROM.h>
 
 void setup() {
   Serial.begin(115200);
+  EEPROM.begin(4096);  // EEPROM başlatma
   // Leds
   setupLeds();
   checkLedColor();

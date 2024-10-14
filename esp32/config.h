@@ -12,6 +12,9 @@ extern const unsigned long pingInterval;  // Ping periyodu
 extern const char* feed_channel; // Besle mesajının gönderileceği kanal
 extern const char* ping_channel; // Ping mesajının gönderileceği kanal
 extern const char* feedback_channel; // Geri bildirim kanalı
+extern const char* request_schedule_channel;   // Plan talep kanalı
+extern const char* response_schedule_channel;  // Plan yanıt kanalı
+extern const char* update_schedule_channel;    // Plan güncelleme kanalı
 
 //AutoFeedHandler
 extern const int feeding_period; // Besleme sıklığı

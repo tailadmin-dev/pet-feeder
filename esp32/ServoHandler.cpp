@@ -12,9 +12,16 @@ void feed(int amount) {
 
 
   for (int i = 0; i < amount; i++) {
-    // Tablayı döndürme
-    servo.writeMicroseconds(1000);  // Motoru ileri döndür
-    delay(350);                     // Döndürme işlemi süresi
+
+    for (int j = 0; j < 10; j++) {
+      // Servo motoru ileri geri titreşim hareketi ile mama sıkışmasını önleme
+      servo.writeMicroseconds(1800);
+      delay(50);
+      servo.writeMicroseconds(1500);
+      delay(50);
+      servo.writeMicroseconds(1200);
+      delay(150);
+    }
 
     // Motoru durdur
     servo.writeMicroseconds(1500);
