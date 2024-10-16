@@ -158,7 +158,7 @@ void updateScheduleFromMQTT(String jsonMessage) {
   client.publish(feedback_channel, "Besleme planı sıralandı ve kaydedildi.");
 }
 
-String sortFeedingSchedule(String unsortedJson) {  
+String sortFeedingSchedule(String unsortedJson) {
   DynamicJsonDocument doc(8192);
   DeserializationError error = deserializeJson(doc, unsortedJson);
 
@@ -168,50 +168,32 @@ String sortFeedingSchedule(String unsortedJson) {
     return unsortedJson; // Hata durumunda sıralanmamış veriyi geri döndürüyoruz
   }
 
-  // FeedingTime array'ine verileri yükle
-  int scheduleSize = doc.size();
-  FeedingTime tempSchedule[50];
-  for (int i = 0; i < scheduleSize; i++) {
-    tempSchedule[i].d = String(doc[i]["d"]).toInt();
-    tempSchedule[i].h = String(doc[i]["h"]).toInt();
-    tempSchedule[i].m = String(doc[i]["m"]).toInt();
-    tempSchedule[i].a = String(doc[i]["a"]).toInt();
+  // FeedingTime verilerini bir vektöre yükle
+  std::vector<FeedingTime> schedule;
+  for (JsonObject obj : doc.as<JsonArray>()) {
+    FeedingTime time;
+    time.d = obj["d"];
+    time.h = obj["h"];
+    time.m = obj["m"];
+    time.a = obj["a"];
+    schedule.push_back(time);
   }
 
-  // Sıralama işlemi - Bubble Sort veya benzeri bir algoritma kullanılıyor
-  for (int i = 0; i < scheduleSize - 1; i++) {
-    for (int j = 0; j < scheduleSize - i - 1; j++) {
-      bool swapNeeded = false;
+  // Sıralama işlemi
+  std::sort(schedule.begin(), schedule.end(), [](const FeedingTime &a, const FeedingTime &b) {
+    if (a.d != b.d) return a.d < b.d; // Önce gün değerine göre
+    if (a.h != b.h) return a.h < b.h; // Aynı günse saat değerine göre
+    return a.m < b.m;                 // Aynı saatse dakika değerine göre
+  });
 
-      if (tempSchedule[j].d > tempSchedule[j + 1].d) {
-        swapNeeded = true;
-      } else if (tempSchedule[j].d == tempSchedule[j + 1].d) {
-        if (tempSchedule[j].h > tempSchedule[j + 1].h) {
-          swapNeeded = true;
-        } else if (tempSchedule[j].h == tempSchedule[j + 1].h) {
-          if (tempSchedule[j].m > tempSchedule[j + 1].m) {
-            swapNeeded = true;
-          }
-        }
-      }
-
-      // Eğer yer değiştirme gerekiyorsa iki öğeyi değiştir
-      if (swapNeeded) {
-        FeedingTime temp = tempSchedule[j];
-        tempSchedule[j] = tempSchedule[j + 1];
-        tempSchedule[j + 1] = temp;
-      }
-    }
-  }
-
-  // Sıralanmış besleme planını JSON formatında oluştur
+  // Sıralanmış veriyi JSON formatında oluştur
   DynamicJsonDocument sortedDoc(8192);
-  for (int i = 0; i < scheduleSize; i++) {
+  for (const FeedingTime &time : schedule) {
     JsonObject obj = sortedDoc.createNestedObject();
-    obj["d"] = tempSchedule[i].d;
-    obj["h"] = tempSchedule[i].h;
-    obj["m"] = tempSchedule[i].m;
-    obj["a"] = tempSchedule[i].a;
+    obj["d"] = time.d;
+    obj["h"] = time.h;
+    obj["m"] = time.m;
+    obj["a"] = time.a;
   }
 
   // Sıralanmış JSON'u geri döndür
