@@ -62,14 +62,23 @@ void saveScheduleToEEPROM(String sortedJson) {
   int scheduleSize = doc.size();
   int addr = 0;
 
+  // İlk olarak program boyutunu EEPROM'a yaz
   EEPROM.put(addr, scheduleSize);
   addr += sizeof(int);
 
+  // Her bir besleme zamanını EEPROM'a sırayla yaz
   for (int i = 0; i < scheduleSize; i++) {
-    EEPROM.put(addr, feedingSchedule[i]);  // Nesneleri sırayla EEPROM'a yaz
+    FeedingTime time;
+    time.d = doc[i]["d"];
+    time.h = doc[i]["h"];
+    time.m = doc[i]["m"];
+    time.a = doc[i]["a"];
+
+    EEPROM.put(addr, time);  // Her bir FeedingTime nesnesini EEPROM'a yaz
     addr += sizeof(FeedingTime);
   }
 
+  // Değişiklikleri EEPROM'a kalıcı olarak yaz
   EEPROM.commit();
   Serial.println("Sıralanmış plan EEPROM'a kaydedildi.");
 }
