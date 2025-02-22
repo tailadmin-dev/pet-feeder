@@ -1,0 +1,36 @@
+#include "config.h"
+
+// WiFiHandler
+const char* ssid = "WifiAdi"; // Wifi adı
+const char* password = "Sifre"; //Wifi şifresi
+
+//MqttHandler
+const char* mqtt_server = "MqttServerIpAdresi"; // Mqtt sunucusu adresi
+const int mqtt_port = 1883; // Mqtt sunucusunun portu
+const unsigned long pingInterval = 300000;  // Ping periyodu
+const char* feed_channel = "pet_feeder/feed"; // Besleme kanalı
+const char* ping_channel = "pet_feeder/ping"; // Ping kanalı
+const char* feedback_channel = "pet_feeder/feedback"; // Geri bildirim kanalı
+const char* request_schedule_channel = "pet_feeder/request_schedule";
+const char* response_schedule_channel = "pet_feeder/response_schedule";
+const char* update_schedule_channel = "pet_feeder/update_schedule";
+
+//AutoFeedHandler
+const int feeding_period = 5; // Besleme sıklığı
+const int default_periodical_feeding_amount = 1; // Varsayılan öğün miktarı
+const int GTMOffset = 3; // Zaman dilimi
+
+//ManualFeedingButtonHandler
+int manualFeedingButton = 14; // Manuel besleme düğmesi pini D5
+unsigned long checkInterval = 3; // Besleme için düğmeye basılacak süre
+
+//ServoHandler
+int servoPin = 5; // Servo motor pini D1
+
+//IRHandler
+const int irPin = 4; // IR sensör pini D2
+
+//LedHandler
+const int ledRedPin = 12; // Kırmızı LED pini D6
+const int ledGreenPin = 13; // Yeşil LED pini D7
+const int ledBluePin = 15; // Mavi LED pini D8
