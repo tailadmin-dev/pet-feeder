@@ -14,14 +14,14 @@ void feed(int amount) {
   for (int i = 0; i < amount; i++) {
     int currentAngle = 0;
 
-    for (int j = 0; j < 10; j++) {
+    for (int j = 0; j < 7; j++) {
       // Servo motoru ileri geri titreşim hareketi ile mama sıkışmasını önleme
-      servo.write(1800);
-      delay(30);
+      servo.write(1200);
+      delay(120);
       servo.writeMicroseconds(1500);
       delay(50);
-      servo.writeMicroseconds(1200);
-      delay(10);
+      servo.writeMicroseconds(1800);
+      delay(40);
     }
 
     // Motoru durdur
